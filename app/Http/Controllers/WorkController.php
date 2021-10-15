@@ -10,6 +10,11 @@ use Illuminate\Support\Str;
 
 class WorkController extends Controller
 {
+  /**
+   * Lista os trabalhos cadastrados
+   * 
+   * @return \Illuminate\Contracts\Support\Renderable
+   */
   public function index()
   {
     $works = Work::get();
@@ -44,11 +49,22 @@ class WorkController extends Controller
     readfile($filename);
   }
 
+  /**
+   * Exibe o formulário de criação de trabalhos
+   * 
+   * @return \Illuminate\Contracts\Support\Renderable
+   */
   public function create()
   {
     return view('works/create');
   }
 
+  /** 
+   * Cria um trabalho no banco de dados
+   * 
+   * @param Request $request
+   * @return \Illuminate\Contracts\Support\Renderable
+   */
   public function store(Request $request)
   {
     $data = $request->except('_token');
@@ -63,8 +79,50 @@ class WorkController extends Controller
     return redirect()->route('works.index');
   }
 
+  /**
+   * Exibe o formulário de edição de trabalhos
+   * 
+   * @param integer $id
+   * @return \Illuminate\Contracts\Support\Renderable
+   */
   public function edit(int $id)
   {
-    # code...
+    $work = Work::findOrFail($id);
+
+    return view('works/edit', [
+      'work' => $work
+    ]);
+  }
+
+  /**
+   * Atualiza um trabalho no banco de dados
+   * 
+   * @param integer $id
+   * @param Request $request
+   * @return \Illuminate\Contracts\Support\Renderable
+   */
+  public function update(int $id, Request $request)
+  {
+    $work = Work::findOrFail($id);
+
+    $data = $request->except(['_token', '_method']);
+
+    $work->update($data);
+
+    return redirect()->route('works.index');
+  }
+
+  /**
+   * Apaga um usuário no banco de dados
+   * 
+   * @param integer $id
+   * @return \Illuminate\Contracts\Support\Renderable
+   */
+  public function destroy(int $id)
+  {
+    $work = Work::findOrFail($id);
+    $work->delete();
+
+    return redirect()->route('works.index');
   }
 }

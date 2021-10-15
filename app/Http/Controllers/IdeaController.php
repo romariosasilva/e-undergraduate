@@ -2,38 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Idea;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class IdeaController extends Controller
 {
   /**
-   * Lista os usuários cadastrados
+   * Lista as ideias cadastradas
    * 
    * @return \Illuminate\Contracts\Support\Renderable
    */
   public function index()
   {
-    $users = User::get();
+    $ideas = Idea::get();
 
-    return view('users/index', [
-      'users' => $users
+    return view('ideas/index', [
+      'ideas' => $ideas
     ]);
   }
 
   /**
-   * Exibe o formulário de criação de usuários
+   * Exibe o formulário de criação de ideias
    * 
    * @return \Illuminate\Contracts\Support\Renderable
    */
   public function create()
   {
-    return view('users/create');
+    return view('ideas/create');
   }
 
   /** 
-   * Cria um usuário no banco de dados
+   * Cria uma ideia no banco de dados
    * 
    * @param Request $request
    * @return \Illuminate\Contracts\Support\Renderable
@@ -42,30 +42,30 @@ class UserController extends Controller
   {
     $data = $request->except('_token');
 
-    $data['name'] = Str::title($request->name);
+    $data['user_id'] = Auth::id();
 
-    User::create($data);
+    Idea::create($data);
 
-    return redirect()->route('users.index');
+    return redirect()->route('ideas.index');
   }
 
   /**
-   * Exibe o formulário de edição de usuários
+   * Exibe o formulário de edição de ideias
    * 
    * @param integer $id
    * @return \Illuminate\Contracts\Support\Renderable
    */
   public function edit(int $id)
   {
-    $user = User::findOrFail($id);
+    $idea = Idea::findOrFail($id);
 
-    return view('users/edit', [
-      'user' => $user
+    return view('ideas/edit', [
+      'idea' => $idea
     ]);
   }
 
   /**
-   * Atualiza um usuário no banco de dados
+   * Atualiza uma ideia no banco de dados
    * 
    * @param integer $id
    * @param Request $request
@@ -73,28 +73,26 @@ class UserController extends Controller
    */
   public function update(int $id, Request $request)
   {
-    $user = User::findOrFail($id);
+    $idea = Idea::findOrFail($id);
 
     $data = $request->except(['_token', '_method']);
 
-    $data['name'] = Str::title($request->name);
+    $idea->update($data);
 
-    $user->update($data);
-
-    return redirect()->route('users.index');
+    return redirect()->route('ideas.index');
   }
 
   /**
-   * Apaga um usuário no banco de dados
+   * Apaga uma ideia do banco de dados
    * 
    * @param integer $id
    * @return \Illuminate\Contracts\Support\Renderable
    */
   public function destroy(int $id)
   {
-    $user = User::findOrFail($id);
-    $user->delete();
+    $idea = Idea::findOrFail($id);
+    $idea->delete();
 
-    return redirect()->route('users.index');
+    return redirect()->route('ideas.index');
   }
 }

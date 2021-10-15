@@ -27,8 +27,16 @@ ul.notes li div small {
   font-size: 10px;
 }
 
+ul.notes li div footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: inherit;
+  padding-block-end: 0%;
+}
+
 ul.notes li div a {
-  position: absolute;
   right: 10px;
   bottom: 10px;
   color: inherit;

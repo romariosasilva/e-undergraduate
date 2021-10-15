@@ -35,31 +35,31 @@
           <hr style="color: white">
           <ul class="nav nav-pills flex-column mb-auto" id="side-menu">
             <li class="nav-item">
-              <a href="{{ route('home.index') }}" class="nav-link active" aria-current="page">
+              <a href="{{ route('home.index') }}" class="nav-link {{ Helpers::isActiveRoute('home') }}">
                 <i class="fas fa-home"></i>
                 Home
               </a>
             </li>
             <li>
-              <a href="{{ route('ideas.index') }}" class="nav-link link-light">
+              <a href="{{ route('ideas.index') }}" class="nav-link {{ Helpers::isActiveRoute('ideas') }}">
                 <i class="fas fa-lightbulb"></i>
                 Mural de Ideias
               </a>
             </li>
             <li>
-              <a href="{{ route('works.index') }}" class="nav-link link-light">
+              <a href="{{ route('works.index') }}" class="nav-link {{ Helpers::isActiveRoute('works') }}">
                 <i class="fas fa-graduation-cap"></i>
                 Trabalhos
               </a>
             </li>
             <li>
-              <a href="{{ route('calendar.index') }}" class="nav-link link-light">
+              <a href="{{ route('calendar.index') }}" class="nav-link {{ Helpers::isActiveRoute('calendar') }}">
                 <i class="fas fa-calendar-day"></i>
                 Calendário
               </a>
             </li>
             <li>
-              <a href="{{ route('users.index') }}" class="nav-link link-light">
+              <a href="{{ route('users.index') }}" class="nav-link {{ Helpers::isActiveRoute('users') }}">
                 <i class="fas fa-user"></i>
                 Usuários
               </a>

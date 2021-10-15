@@ -1,5 +1,9 @@
 @extends('layout.app')
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('assets/css/notes.css') }}">
+@endsection
+
 @section('title', 'Mural de Ideias')
 
 @section('header_page')
@@ -25,54 +29,93 @@
       <ul class="notes">
         <li>
           <div>
-            <small>08/10/2021 09:12:28</small>
-            <h4>The standard chunk of Lorem</h4>
-            <p>Ipsum used since the 1500s is reproduced below for those interested.</p>
+            <h4>Crie sua ideia!</h4>
+            <p>Possui alguma ideia ou sugestão de tema que gostaria de orientar? Não perca tempo, cadastre aqui e veja a mágica acontecer!</p>
+            <a id="showModal" data-toggle="modal" data-target="#modal" data-attr="{{ route('ideas.create') }}">
+              <i class="fas fa-plus"></i>
+            </a>
           </div>
         </li>
+        @forelse ($ideas as $idea)
         <li>
           <div>
-            <small>08/10/2021 10:15:26</small>
-            <h4>Ipsum used standard chunk of Lorem</h4>
-            <p>Standard chunk is reproduced below for those.</p>
+            <small>{{ $idea->updated_at }}</small>
+            <h4>{{ $idea->title }}</h4>
+            <p>{{ $idea->description }}</p>
+            <footer>
+              <section>
+                <i class="fas fa-thumbs-up" onclick="javascript: alert('Marcar com gostei')"></i>
+                <i class="fas fa-thumbs-down" onclick="javascript: alert('Marcar com não gostei')"></i>
+              </section>
+              <section>
+                <a id="showModal" data-toggle="modal" data-target="#modal" data-attr="{{ route('ideas.edit', $idea) }}">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <a href="{{ route('ideas.destroy', $idea) }}" onclick="javascript:
+                    return confirm('Tem certeza de que quer apagar essa ideia?')">
+                  <i class="fas fa-trash"></i>
+                </a>
+              </section>
+            </footer>
           </div>
         </li>
+        @empty
         <li>
           <div>
-            <small>08/10/2021 11:08:33</small>
-            <h4>Latin professor at Hampden-Sydney </h4>
-            <p>The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
-          </div>
-        </li><li>
-          <div>
-            <small>08/10/2021 12:03:28</small>
-            <h4>Long established fact</h4>
-            <p>The years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+            <h4>Sem ideias cadastradas</h4>
+            <p>Possui alguma ideia ou sugestão de tema que gostaria de orientar? Não perca tempo, cadastre aqui e veja a mágica acontecer!</p>
           </div>
         </li>
-        <li>
-          <div>
-            <small>08/10/2021 12:10:12</small>
-            <h4>There are many variations</h4>
-            <p>All the Lorem Ipsum generators on the Internet .</p>
-          </div>
-        </li>
-        <li>
-          <div>
-            <small>08/10/2021 15:20:11</small>
-            <h4>Contrary to popular belief</h4>
-            <p>Hampden-Sydney College in Virginia, looked up one.</p>
-          </div>
-        </li>
-        <li>
-          <div>
-            <small>08/10/2021 15:33:12</small>
-            <h4>The generated Lorem Ipsum </h4>
-            <p>The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
-          </div>
-        </li>
+        @endforelse
       </ul>
     </div>
   </div>
 </div>
+
+<div class="modal inmodal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: black">
+        <h5 class="modal-title" style="color: white">Editar Ideia</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <div>
+          <!-- the result to be displayed apply here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection
+
+@section('javascript')
+<script>
+  $(document).on('click', '#showModal', function(event) {
+    event.preventDefault();
+    let href = $(this).attr('data-attr');
+    $.ajax({
+      url: href,
+      beforeSend: function() {
+        $('#loader').show();
+      },
+      // return the result
+      success: function(result) {
+        $('#modal').modal("show");
+        $('#modalBody').html(result).show();
+      },
+      complete: function() {
+        $('#loader').hide();
+      },
+      error: function(jqXHR, testStatus, error) {
+        console.log(error);
+        alert("Page " + href + " cannot open. Error:" + error);
+        $('#loader').hide();
+      },
+      timeout: 8000
+    });
+  });
+</script>
 @endsection

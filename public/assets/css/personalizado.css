@@ -286,3 +286,25 @@ ol.unstyled {
   background-color: #2A2E36;
   color: #8B91A0;
 }
+
+.close {
+  float: right !important;
+  margin-top: -2px;
+
+  -webkit-appearance: none;
+  padding: 0;
+  background: 0 0;
+  border: 0;
+
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+}
+
+.modal-header {
+  align-items: flex-start;
+}

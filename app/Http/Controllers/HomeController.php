@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Idea;
 use App\Models\Work;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -15,15 +16,14 @@ class HomeController extends Controller
    */
   public function index()
   {
+    $qtdIdea = Idea::where('user_id', '=', Auth::id())->get()->count();
+    $qtdWork = Work::where('user_id', '=', Auth::id())->get()->count();
     $works = Work::get();
 
     return view('home/index2', [
-      'works' => $works
+      'qtdIdea' => $qtdIdea,
+      'qtdWork' => $qtdWork,
+      'works' => $works,
     ]);
-  }
-
-  public function ideas()
-  {
-    return view('ideas/index');
   }
 }

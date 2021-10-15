@@ -34,14 +34,16 @@
         <tbody>
           @forelse ($works as $work)
             @can('view_work', $work)
+              @php
+                $linkPDF = route('works.viewPDF', $work);
+              @endphp
               <tr>
                 <th>{{ $work->title }}</td>
                 <td>{{ Str::limit($work->description, 100) }}</td>
                 <td>{{ Str::before($work->user->name, ' ') }} {{ Str::afterLast($work->user->name, ' ') }}</td>
                 <td>
                   <a href="{{ route('works.view', $work) }}"><i class="fas fa-search"></i></a>
-                  <a style="color: rgb(209, 41, 40)"
-                    onclick="javascript: openPDF('{{ route('works.viewPDF', $work) }}')">
+                  <a style="color: rgb(209, 41, 40)" onclick="javascript: openPDF('{{ $linkPDF }}')">
                     <i class="fas fa-file-pdf"></i>
                   </a>
                   <a href="#"><i class="fas fa-external-link-alt"></i></a>
@@ -49,9 +51,9 @@
               </tr>
             @endcan
           @empty
-          <tr>
-            <th colspan="4" style="text-align: center;">Nenhum trabalho foi encontrado</th>
-          </tr>
+            <tr>
+              <th colspan="4" style="text-align: center;">Nenhum trabalho foi encontrado</th>
+            </tr>
           @endforelse
         </tbody>
       </table>
