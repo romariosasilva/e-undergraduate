@@ -1,5 +1,9 @@
 @extends('layout.app')
 
+@section('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css" integrity="sha256-FjyLCG3re1j4KofUTQQXmaWJw13Jdb7LQvXlkFxTDJI=" crossorigin="anonymous">
+@endsection
+
 @section('title', 'Calendário')
 
 @section('header_page')
@@ -44,23 +48,23 @@
 @endsection
 
 @section('javascript')
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js" integrity="sha256-8nl2O4lMNahIAmUnxZprMxJIBiPv+SzhMuYwEuinVM0=" crossorigin="anonymous"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-        },
-        buttonIcons: false,// Desabilita os ícones e deixa como texto
-        selectable: true,  // Habilita a seleção no calendário
-        locale: 'pt-br',   // Configura o idioma para o português
-        allDaySlot: false, // Remove a opção "dia todo" da visualização do calendário
-      });
-
-      calendar.render();
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js" integrity="sha256-8nl2O4lMNahIAmUnxZprMxJIBiPv+SzhMuYwEuinVM0=" crossorigin="anonymous"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+      },
+      buttonIcons: false, // Desabilita os ícones e deixa como texto
+      selectable: true, // Habilita a seleção no calendário
+      locale: 'pt-br', // Configura o idioma para o português
+      allDaySlot: false, // Remove a opção "dia todo" da visualização do calendário
     });
-  </script>
+
+    calendar.render();
+  });
+</script>
 @endsection
